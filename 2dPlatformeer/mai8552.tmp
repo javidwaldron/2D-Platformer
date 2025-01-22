@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0f1bkgfdwldf"]
+
+[ext_resource type="Script" path="res://main_menu.gd" id="1_mp8gg"]
+[ext_resource type="PackedScene" uid="uid://c7agnsmcxtq7x" path="res://input_settings.tscn" id="2_nhtdo"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 338.0
+offset_top = 132.0
+offset_right = -329.0
+offset_bottom = -95.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mp8gg")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="StartGame" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Start  Game"
+
+[node name="Continue" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Continue"
+
+[node name="Controls" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Controls"
+
+[node name="CoinsAvailable" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Coins Available"
+
+[node name="Settings" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="DeleteSave" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Delete Save"
+
+[node name="ExitGame" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Exit Game"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="InputSettings" parent="CanvasLayer" instance=ExtResource("2_nhtdo")]
+visible = false
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Controls" to="." method="_on_controls_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CoinsAvailable" to="." method="_on_coins_available_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/DeleteSave" to="." method="_on_delete_save_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ExitGame" to="." method="_on_exit_game_pressed"]
