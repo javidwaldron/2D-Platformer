@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c0f1bkgfdwldf"]
+[gd_scene load_steps=6 format=3 uid="uid://c0f1bkgfdwldf"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_mp8gg"]
 [ext_resource type="PackedScene" uid="uid://c7agnsmcxtq7x" path="res://input_settings.tscn" id="2_nhtdo"]
+[ext_resource type="Texture2D" uid="uid://osu4k0jdk3wa" path="res://level/background/sky.webp" id="2_xn5qg"]
+[ext_resource type="Texture2D" uid="uid://t8otskslwopy" path="res://level/background/cloud_1.webp" id="3_dqal0"]
+[ext_resource type="PackedScene" uid="uid://kcxdhtmxjfxp" path="res://settings_ui.tscn" id="5_wm1v8"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -15,6 +18,54 @@ offset_bottom = -95.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mp8gg")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -339.0
+offset_top = -132.0
+offset_right = 462.0
+offset_bottom = 380.0
+texture = ExtResource("2_xn5qg")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = -342.0
+offset_top = -133.0
+offset_right = 459.0
+offset_bottom = 379.0
+texture = ExtResource("3_dqal0")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -129.5
+offset_top = -85.0
+offset_right = 127.5
+offset_bottom = -38.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "2D PLATFORMER"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -104.5
+offset_top = 71.0
+offset_right = 152.5
+offset_bottom = 87.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "Developed by Xiaowei, Valentina and Javid"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
@@ -55,6 +106,9 @@ text = "Exit Game"
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="InputSettings" parent="CanvasLayer" instance=ExtResource("2_nhtdo")]
+visible = false
+
+[node name="SettingsUI" parent="CanvasLayer" instance=ExtResource("5_wm1v8")]
 visible = false
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]

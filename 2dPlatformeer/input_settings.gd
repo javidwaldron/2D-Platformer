@@ -13,6 +13,7 @@ var input_actions = {
 	"move_left" : "Move Left",
 	"move_right": "Move Right",
 	"shoot" : "Shoot",
+	"toggle_pause" : "Pause",
 	
 	
 	
