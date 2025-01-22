@@ -26,6 +26,7 @@ config/icon="res://icon.webp"
 [autoload]
 
 Music="*res://music.tscn"
+CoinsRemaining="*res://coins_remaining.gd"
 
 [display]
 

@@ -31,19 +31,6 @@ func _on_controls_pressed():
 
 
 
-
-func _on_coins_available_pressed() -> void:
-	pass # Replace with function body.
-
-
-
-
-
-
-
-
-
-
 func _on_settings_pressed():
 	$CanvasLayer/SettingsUI.visible = true
 	$MarginContainer.visible = false
