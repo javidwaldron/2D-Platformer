@@ -23,8 +23,18 @@ var gravity: int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var camera := $Camera as Camera2D
 var _double_jump_charged := false
 
+var hp:=100
 
+@onready var health_bar = %HealthBar
+@onready var timer = %Timer
 
+func _ready():
+	timer.start()
+	health_bar.value = hp
+	health_bar.max_value = 100
+	
+	
+	
 func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		_double_jump_charged = true
@@ -87,3 +97,13 @@ func try_jump() -> void:
 		return
 	velocity.y = JUMP_VELOCITY
 	jump_sound.play()
+
+func _on_timer_timeout():
+	hp-=1
+	health_bar.value = hp
+	print(hp)
+
+func health_up(int):
+	hp+= int
+	health_bar.value = hp
+	print(hp)
