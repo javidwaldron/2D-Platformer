@@ -88,16 +88,19 @@ func _on_quit_button_pressed() -> void:
 
 func save_game():
 	var save_path = "user://savegame.json"
+	var player = get_node_or_null("%Player") 
+	var player_position = player.global_position if player else Vector2.ZERO
+	var coins = CoinsRemaining.currentcoin
+	var current_level = get_tree().current_scene.name
+	
 	var save_data = {
-		"player_position": GlobalState.player_position,
-		"coins": GlobalState.coins,
-		
+		"player_position": {"x": player_position.x, "y": player_position.y},
+		"coins": coins,
 		"level": {
-			"name": get_tree().current_scene.name,
-			"coins_collected": CoinsRemaining.currentcoin
-		},
+			"name": current_level,
+			"coins_collected": coins
+},
 	}
-
 	var json_string = JSON.stringify(save_data)
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	file.store_string(json_string)

@@ -79,7 +79,8 @@ func load_game():
 		return
 		
 	var save_data = json.data
-	var player = get_node_or_null("Player")
+	
+	var player = get_node_or_null("%Player") 
 	if player and save_data.has("player_position"):
 		var pos = save_data["player_position"]
 		player.global_position = Vector2(pos["x"], pos["y"])
@@ -87,7 +88,7 @@ func load_game():
 	else:
 		print("Player node or position data missing!")
 		
-	var coins_node = get_node_or_null("CoinsRemaining") 
+	var coins_node = get_node_or_null("ColorRect/CoinsCounter") 
 	if coins_node and save_data.has("coins"):
 		coins_node.currentcoin = save_data["coins"]
 		print("Loaded coins:", coins_node.currentcoin)
@@ -97,6 +98,6 @@ func load_game():
 	if save_data.has("level"):
 		var level_name = save_data["level"].get("name", "")
 		var current_scene = get_tree().current_scene.name
-		get_tree().change_scene_to_file("res://" + level_name + ".tscn")
+		get_tree().change_scene_to_file("res://game_singleplayer.tscn")
 	print("Game loaded successfully!")
 	

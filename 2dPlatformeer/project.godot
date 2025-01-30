@@ -27,7 +27,6 @@ config/icon="res://icon.webp"
 
 Music="*res://music.tscn"
 CoinsRemaining="*res://coins_remaining.gd"
-GlobalState="*res://GlobalState.gd"
 
 [display]
 
