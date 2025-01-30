@@ -65,16 +65,16 @@ func _on_resume_button_pressed() -> void:
 	
 
 
-func _on_singleplayer_button_pressed() -> void:
-	if visible:
-		get_tree().paused = false
-		get_tree().change_scene_to_file("res://game_singleplayer.tscn")
+#func _on_singleplayer_button_pressed() -> void:
+#	if visible:
+#		get_tree().paused = false
+#		get_tree().change_scene_to_file("res://game_singleplayer.tscn")
 
 
-func _on_splitscreen_button_pressed() -> void:
-	if visible:
-		get_tree().paused = false
-		get_tree().change_scene_to_file("res://game_splitscreen.tscn")
+#func _on_splitscreen_button_pressed() -> void:
+#	if visible:
+#		get_tree().paused = false
+#		get_tree().change_scene_to_file("res://game_splitscreen.tscn")
 
 func _on_save_button_pressed() -> void:
 	save_game()
@@ -85,26 +85,17 @@ func _on_quit_button_pressed() -> void:
 		coins_counter._coins_collected =  CoinsRemaining.currentcoin
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://main_menu.tscn")
+
 func save_game():
 	var save_path = "user://savegame.json"
 	var save_data = {
-		"player": {
-			"position": {
-				"x": global_position.x,
-				"y": global_position.y
-			},
-			"coins": CoinsRemaining.currentcoin
-		},
+		"player_position": GlobalState.player_position,
+		"coins": GlobalState.coins,
+		
 		"level": {
 			"name": get_tree().current_scene.name,
 			"coins_collected": CoinsRemaining.currentcoin
 		},
-		"enemies": [
-			{"id": 1, "position": Vector2(500, 300), "alive": false}
-		],
-		"settings": {
-			"fullscreen": DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
-		}
 	}
 
 	var json_string = JSON.stringify(save_data)

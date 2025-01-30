@@ -27,6 +27,7 @@ config/icon="res://icon.webp"
 
 Music="*res://music.tscn"
 CoinsRemaining="*res://coins_remaining.gd"
+GlobalState="*res://GlobalState.gd"
 
 [display]
 
@@ -37,6 +38,10 @@ window/size/window_height_override=960
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_height"
 window/stretch/scale_mode="integer"
+
+[editor]
+
+version_control/autoload_on_startup=true
 
 [importer_defaults]
 

@@ -64,7 +64,7 @@ func _on_exit_game_pressed():
 func load_game():
 	var save_path = "user://savegame.json"  
 	if not FileAccess.file_exists(save_path):
-		print("No save file found at:", ProjectSettings.globalize_path(save_path))
+		print("No save file found!")
 		return
 		
 	var file = FileAccess.open(save_path, FileAccess.READ)
@@ -79,26 +79,24 @@ func load_game():
 		return
 		
 	var save_data = json.data
-	
-	if "player" in save_data and "level" in save_data:
-		var player = get_tree().get_root().find_child("Player", true, false)
-		if player:
-			var pos_x = save_data["player"]["position"]["x"]
-			var pos_y = save_data["player"]["position"]["y"]
-			player.global_position = Vector2(pos_x, pos_y)
-			CoinsRemaining.currentcoin = save_data["player"]["coins"]
-			print("Coins loaded:", CoinsRemaining.currentcoin)
-		else:
-			print("Player node not found in the scene tree!")
-		#var scene_path = "res://" + save_data["level"]["name"] + ".tscn"
-		var scene_path = "res://" + "game_splitscreen" + ".tscn"
-		if ResourceLoader.exists(scene_path):
-			get_tree().change_scene_to_file(scene_path)
-			print("Scene changed to:", scene_path)
-		else:
-			print("Error: Scene file not found at:", scene_path)
-		
-		print("Game loaded successfully from:", ProjectSettings.globalize_path(save_path))
+	var player = get_node_or_null("Player")
+	if player and save_data.has("player_position"):
+		var pos = save_data["player_position"]
+		player.global_position = Vector2(pos["x"], pos["y"])
+		print("Loaded player position:", player.global_position)
 	else:
-		print("Invalid save data structure.")
+		print("Player node or position data missing!")
+		
+	var coins_node = get_node_or_null("CoinsRemaining") 
+	if coins_node and save_data.has("coins"):
+		coins_node.currentcoin = save_data["coins"]
+		print("Loaded coins:", coins_node.currentcoin)
+	else:
+		print("CoinsRemaining node or coin data missing!")
+		
+	if save_data.has("level"):
+		var level_name = save_data["level"].get("name", "")
+		var current_scene = get_tree().current_scene.name
+		get_tree().change_scene_to_file("res://" + level_name + ".tscn")
+	print("Game loaded successfully!")
 	
