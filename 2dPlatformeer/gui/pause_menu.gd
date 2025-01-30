@@ -95,12 +95,6 @@ func save_game():
 			"name": get_tree().current_scene.name,
 			"coins_collected": CoinsRemaining.currentcoin
 		},
-		"enemies": [
-			{"id": 1, "position": Vector2(500, 300), "alive": false}
-		],
-		"settings": {
-			"fullscreen": DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
-		}
 	}
 
 	var json_string = JSON.stringify(save_data)

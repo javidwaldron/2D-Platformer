@@ -14,8 +14,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1")
 script = ExtResource("2")
-fade_in_duration = null
-fade_out_duration = null
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -67,4 +65,5 @@ offset_right = 105.0
 offset_bottom = 50.0
 
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
