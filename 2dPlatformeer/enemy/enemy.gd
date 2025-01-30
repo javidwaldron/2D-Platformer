@@ -44,13 +44,15 @@ func _process(delta):
 		
 	
 	if fireleft == true:
-		
 		ray_cast_player_left.enabled = false
-		attacktimer.start()
+		if attacktimer:
+			print("⏳ attacktimer 对象存在，调用 start()")
+			attacktimer.start()
+		else:
+			print("no attack timer")
 		fireleft = false
 		
 	if fireright == true:
-		
 		ray_cast_player_right.enabled = false
 		attacktimer.start()
 		fireright = false
