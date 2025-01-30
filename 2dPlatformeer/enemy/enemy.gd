@@ -41,11 +41,13 @@ func _process(delta):
 		
 	
 	if fireleft == true:
+		
 		ray_cast_player_left.enabled = false
 		attacktimer.start()
 		fireleft = false
 		
 	if fireright == true:
+		
 		ray_cast_player_right.enabled = false
 		attacktimer.start()
 		fireright = false
@@ -138,5 +140,6 @@ func _on_attack_timer_timeout():
 		
 	ray_cast_player_left.enabled = true
 	ray_cast_player_right.enabled = true
+	
 	attacktimer.stop()
 	
