@@ -101,9 +101,9 @@ func try_jump() -> void:
 func _on_timer_timeout():
 	hp-=1
 	health_bar.value = hp
-	print(hp)
+	
 
 func health_up(int):
 	hp+= int
 	health_bar.value = hp
-	print(hp)
+	

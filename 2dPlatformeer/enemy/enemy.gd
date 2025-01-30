@@ -1,19 +1,23 @@
 class_name Enemy extends CharacterBody2D
 
 
-enum State {
-	WALKING,
-	DEAD,
-}
+enum State { WALKING, DEAD }
 
 
 var pickup1 = preload("res://Items/pickup_small.tscn")
 var pickup2 = preload("res://Items/pickup_medium.tscn")
 var pickup3 = preload("res://Items/pickup_large.tscn")
 
-@onready var timer = $Timer
+var attackorbleft = preload("res://enemy/enemy_orbleft.tscn")
+var attackorbright = preload("res://enemy/enemy_orbright.tscn")
 
+@onready var timer = $Timer
+@onready var attacktimer = $AttackTimer
+@onready var fireleft
+@onready var fireright
+ 
 const WALK_SPEED = 22.0
+
 
 var _state := State.WALKING
 
@@ -24,6 +28,30 @@ var _state := State.WALKING
 @onready var sprite := $Sprite2D as Sprite2D
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 
+@onready var ray_cast_player_left: RayCast2D = $RayCastPlayerLeft
+@onready var ray_cast_player_right: RayCast2D = $RayCastPlayerRight
+
+func _process(delta):
+	
+	
+	if ray_cast_player_left.is_colliding():
+		fireleft = true
+	elif ray_cast_player_right.is_colliding():
+		fireright = true
+		
+	
+	if fireleft == true:
+		ray_cast_player_left.enabled = false
+		attacktimer.start()
+		fireleft = false
+		
+	if fireright == true:
+		ray_cast_player_right.enabled = false
+		attacktimer.start()
+		fireright = false
+
+
+
 
 func _physics_process(delta: float) -> void:
 	if _state == State.WALKING and velocity.is_zero_approx():
@@ -31,8 +59,13 @@ func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
 	if not floor_detector_left.is_colliding():
 		velocity.x = WALK_SPEED
+		
+		
+		
 	elif not floor_detector_right.is_colliding():
 		velocity.x = -WALK_SPEED
+		
+
 
 	if is_on_wall():
 		velocity.x = -velocity.x
@@ -51,7 +84,7 @@ func _physics_process(delta: float) -> void:
 
 func destroy() -> void:
 	_state = State.DEAD
-	
+	attacktimer.stop()
 	velocity = Vector2.ZERO
 	timer.start()
 
@@ -92,3 +125,18 @@ func invisibleforwait():
 func _on_timer_timeout():
 	print("ding")
 	queue_free()
+
+
+func _on_attack_timer_timeout():
+	if ray_cast_player_left.enabled == false:
+		var instance = attackorbright.instantiate()
+		add_child(instance)
+	
+	if ray_cast_player_right.enabled == false:
+		var instance = attackorbleft.instantiate()
+		add_child(instance)
+		
+	ray_cast_player_left.enabled = true
+	ray_cast_player_right.enabled = true
+	attacktimer.stop()
+	
