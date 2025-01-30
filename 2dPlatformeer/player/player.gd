@@ -29,6 +29,8 @@ var level = 1
 
 @onready var health_bar = %HealthBar
 @onready var timer = %Timer
+@onready var depleted = %Depletedwarning
+@onready var goawaytimer = %goawaytimer
 
 func _ready():
 	timer.start()
@@ -63,8 +65,14 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	var is_shooting := false
-	if Input.is_action_just_pressed("shoot" + action_suffix):
+	if Input.is_action_just_pressed("shoot" + action_suffix) && hp > 0:
 		is_shooting = gun.shoot(sprite.scale.x)
+		
+	if Input.is_action_just_pressed("shoot" + action_suffix) && hp <= 0:
+		depleted.visible = true;
+		goawaytimer.start()
+		
+		
 
 	var animation := get_new_animation(is_shooting)
 	if animation != animation_player.current_animation and shoot_timer.is_stopped():
@@ -110,6 +118,11 @@ func _on_timer_timeout():
 func health_up(int):
 	hp+= int
 	health_bar.value = hp
+	
+
+func _on_goawaytimer_timeout():
+	depleted.visible = false;
+	goawaytimer.stop()
 	print(hp)
 
 func on_level_up(new_level: int):

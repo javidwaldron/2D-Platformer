@@ -24,3 +24,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			_pause_menu.close()
 			
 		get_tree().root.set_input_as_handled()
+
+
+func _process(delta):
+	if CoinsRemaining.currentcoin == 21:
+		$Sprite2D.visible = true
