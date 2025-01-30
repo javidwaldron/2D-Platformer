@@ -117,6 +117,8 @@ func _on_timer_timeout():
 
 func health_up(int):
 	hp+= int
+	if hp > 100:
+		hp = 100
 	health_bar.value = hp
 	
 
