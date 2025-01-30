@@ -12,7 +12,7 @@ enum QuestType { COLLECT_COINS, KILL_ENEMIES, COMPLETED}
 
 var current_quest = QuestType.COLLECT_COINS
 var quest_progress = 0
-var required_amount = 2
+var required_amount = 15
 var player_level = 1
 
 func _ready():	
