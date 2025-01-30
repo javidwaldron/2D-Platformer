@@ -16,6 +16,7 @@ func _ready() -> void:
 
 func close() -> void:
 	timer.paused = false
+	CoinsRemaining.is_pause = false
 	var tween := create_tween()
 	get_tree().paused = false
 	tween.tween_property(
@@ -37,7 +38,7 @@ func open() -> void:
 	show()
 	timer.paused = true
 	resume_button.grab_focus()
-
+	CoinsRemaining.is_pause = true
 	modulate.a = 0.0
 	center_cont.anchor_bottom = 0.5
 	var tween := create_tween()
@@ -53,7 +54,7 @@ func open() -> void:
 		1.0,
 		fade_out_duration
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-
+	
 
 func _on_coin_collected() -> void:
 	coins_counter.collect_coin()
@@ -80,7 +81,6 @@ func _on_save_button_pressed() -> void:
 	print("saved?")
 	
 func _on_quit_button_pressed() -> void:
-	
 	if visible:
 		coins_counter._coins_collected =  CoinsRemaining.currentcoin
 		get_tree().paused = false
