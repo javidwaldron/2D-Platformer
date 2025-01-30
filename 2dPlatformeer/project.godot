@@ -43,6 +43,10 @@ window/stretch/scale_mode="integer"
 
 version_control/autoload_on_startup=true
 
+[global_group]
+
+quest_manager=""
+
 [importer_defaults]
 
 texture={

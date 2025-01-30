@@ -1,5 +1,6 @@
 class_name Player extends CharacterBody2D
 
+@export var quest_manager: Node
 
 signal coin_collected()
 
@@ -24,6 +25,7 @@ var gravity: int = ProjectSettings.get("physics/2d/default_gravity")
 var _double_jump_charged := false
 
 var hp:=100
+var level = 1
 
 @onready var health_bar = %HealthBar
 @onready var timer = %Timer
@@ -34,7 +36,9 @@ func _ready():
 	timer.start()
 	health_bar.value = hp
 	health_bar.max_value = 100
-	
+	if quest_manager:
+		quest_manager.connect("player_leveled_up", Callable(self, "on_level_up"))
+
 	
 	
 func _physics_process(delta: float) -> void:
@@ -109,7 +113,7 @@ func try_jump() -> void:
 func _on_timer_timeout():
 	hp-=1
 	health_bar.value = hp
-	
+	print(hp)
 
 func health_up(int):
 	hp+= int
@@ -119,3 +123,8 @@ func health_up(int):
 func _on_goawaytimer_timeout():
 	depleted.visible = false;
 	goawaytimer.stop()
+	print(hp)
+
+func on_level_up(new_level: int):
+	level = new_level
+	print("The player's level is: %d" % level)

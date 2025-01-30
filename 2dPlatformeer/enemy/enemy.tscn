@@ -336,7 +336,5 @@ target_position = Vector2(-250, 0)
 target_position = Vector2(250, 0)
 
 [node name="AttackTimer" type="Timer" parent="."]
-process_callback = 0
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
