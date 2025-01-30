@@ -6,6 +6,13 @@ enum State {
 	DEAD,
 }
 
+
+var pickup1 = preload("res://Items/pickup_small.tscn")
+var pickup2 = preload("res://Items/pickup_medium.tscn")
+var pickup3 = preload("res://Items/pickup_large.tscn")
+
+@onready var timer = $Timer
+
 const WALK_SPEED = 22.0
 
 var _state := State.WALKING
@@ -44,7 +51,9 @@ func _physics_process(delta: float) -> void:
 
 func destroy() -> void:
 	_state = State.DEAD
+	
 	velocity = Vector2.ZERO
+	timer.start()
 
 
 func get_new_animation() -> StringName:
@@ -57,3 +66,29 @@ func get_new_animation() -> StringName:
 	else:
 		animation_new = &"destroy"
 	return animation_new
+
+func itemdrop():
+	invisibleforwait()
+	var itemchoice = randi_range(0,2)
+	
+	match itemchoice:
+		0:
+			var instance = pickup1.instantiate()
+			add_child(instance)
+		1:
+			var instance = pickup2.instantiate()
+			add_child(instance)
+		2:
+			var instance = pickup3.instantiate()
+			add_child(instance)
+			
+			
+
+func invisibleforwait():
+	$Sprite2D.visible =false
+	$AnimationPlayer.active =false
+
+
+func _on_timer_timeout():
+	print("ding")
+	queue_free()

@@ -8,13 +8,14 @@ class_name PauseMenu extends Control
 @onready var resume_button := center_cont.get_node(^"VBoxContainer/ResumeButton") as Button
 @onready var coins_counter := $ColorRect/CoinsCounter as CoinsCounter
 @onready var save_button := center_cont.get_node(^"VBoxContainer/SaveButton") as Button
-
+@onready var timer = %Timer
 
 func _ready() -> void:
 	hide()
 
 
 func close() -> void:
+	timer.paused = false
 	var tween := create_tween()
 	get_tree().paused = false
 	tween.tween_property(
@@ -34,7 +35,7 @@ func close() -> void:
 
 func open() -> void:
 	show()
-	
+	timer.paused = true
 	resume_button.grab_focus()
 
 	modulate.a = 0.0
