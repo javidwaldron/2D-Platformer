@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bf3wnwihk7ymg"]
+[gd_scene load_steps=9 format=3 uid="uid://bf3wnwihk7ymg"]
 
 [ext_resource type="Script" path="res://game.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://ctgumjaytuoch" path="res://level/level.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://vh7pmputa7r3" path="res://player/player.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://c7ai4bigaryci" path="res://gui/pause_menu_singleplayer.tscn" id="4_x6l06"]
+[ext_resource type="PackedScene" uid="uid://pomry5gowdw2" path="res://gui/quest_ui.tscn" id="5_h78bm"]
+[ext_resource type="Script" path="res://quest_manager.gd" id="5_s7khw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dl77t"]
 bg_color = Color(0.0911214, 0.0911215, 0.0911214, 1)
@@ -17,8 +19,9 @@ script = ExtResource("2")
 
 [node name="Level" parent="." instance=ExtResource("3")]
 
-[node name="Player" parent="Level" instance=ExtResource("4")]
+[node name="Player" parent="Level" node_paths=PackedStringArray("quest_manager") instance=ExtResource("4")]
 position = Vector2(90, 546)
+quest_manager = NodePath("../../QuestManager")
 
 [node name="InterfaceLayer" type="CanvasLayer" parent="."]
 layer = 100
@@ -56,6 +59,13 @@ unique_name_in_owner = true
 process_callback = 0
 wait_time = 0.5
 autostart = true
+
+[node name="QuestUi" parent="InterfaceLayer" instance=ExtResource("5_h78bm")]
+
+[node name="QuestManager" type="Node2D" parent="." node_paths=PackedStringArray("quest_ui", "player") groups=["quest_manager"]]
+script = ExtResource("5_s7khw")
+quest_ui = NodePath("../InterfaceLayer/QuestUi")
+player = NodePath("../Level/Player")
 
 [connection signal="coin_collected" from="Level/Player" to="InterfaceLayer/PauseMenu" method="_on_coin_collected"]
 [connection signal="timeout" from="InterfaceLayer/Timer" to="Level/Player" method="_on_timer_timeout"]

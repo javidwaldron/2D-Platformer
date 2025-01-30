@@ -1,5 +1,6 @@
 class_name Enemy extends CharacterBody2D
 
+@export var quest_manager: Node
 
 enum State {
 	WALKING,
@@ -24,6 +25,10 @@ var _state := State.WALKING
 @onready var sprite := $Sprite2D as Sprite2D
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 
+signal enemy_defeated
+
+func _ready() -> void:
+	quest_manager = get_tree().get_first_node_in_group("quest_manager") 
 
 func _physics_process(delta: float) -> void:
 	if _state == State.WALKING and velocity.is_zero_approx():
@@ -52,7 +57,11 @@ func _physics_process(delta: float) -> void:
 func destroy() -> void:
 	_state = State.DEAD
 	
+	if quest_manager and quest_manager.current_quest == quest_manager.QuestType.KILL_ENEMIES:
+		quest_manager.update_progress(1)
+		
 	velocity = Vector2.ZERO
+	emit_signal("enemy_defeated")
 	timer.start()
 
 
