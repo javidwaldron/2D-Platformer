@@ -268,16 +268,19 @@ collision_mask = 24
 script = ExtResource("5")
 
 [node name="PlatformDetector" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(0, 6)
 target_position = Vector2(0, 8)
 collision_mask = 8
 
 [node name="FloorDetectorLeft" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(-15, -4)
 target_position = Vector2(0, 35)
 collision_mask = 24
 
 [node name="FloorDetectorRight" type="RayCast2D" parent="."]
+visible = false
 position = Vector2(15.5, -3)
 target_position = Vector2(0, 35)
 collision_mask = 24
@@ -325,5 +328,13 @@ stream = ExtResource("2")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="RayCastPlayerLeft" type="RayCast2D" parent="."]
+target_position = Vector2(-250, 0)
+
+[node name="RayCastPlayerRight" type="RayCast2D" parent="."]
+target_position = Vector2(250, 0)
+
+[node name="AttackTimer" type="Timer" parent="."]
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
