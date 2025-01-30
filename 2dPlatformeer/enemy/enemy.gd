@@ -2,18 +2,22 @@ class_name Enemy extends CharacterBody2D
 
 @export var quest_manager: Node
 
-enum State {
-	WALKING,
-	DEAD,
-}
+enum State { WALKING, DEAD }
 
 
 var pickup1 = preload("res://Items/pickup_small.tscn")
 var pickup2 = preload("res://Items/pickup_medium.tscn")
 var pickup3 = preload("res://Items/pickup_large.tscn")
 
+var attackorbleft = preload("res://enemy/enemy_orbleft.tscn")
+var attackorbright = preload("res://enemy/enemy_orbright.tscn")
+
 @onready var timer = $Timer
 
+@onready var attacktimer = $AttackTimer
+@onready var fireleft
+@onready var fireright
+ 
 const WALK_SPEED = 22.0
 
 var _state := State.WALKING
@@ -24,9 +28,31 @@ var _state := State.WALKING
 @onready var floor_detector_right := $FloorDetectorRight as RayCast2D
 @onready var sprite := $Sprite2D as Sprite2D
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
+@onready var ray_cast_player_left: RayCast2D = $RayCastPlayerLeft
+@onready var ray_cast_player_right: RayCast2D = $RayCastPlayerRight
 
 signal enemy_defeated
 
+
+func _process(delta):
+	
+	
+	if ray_cast_player_left.is_colliding():
+		fireleft = true
+	elif ray_cast_player_right.is_colliding():
+		fireright = true
+		
+	
+	if fireleft == true:
+		ray_cast_player_left.enabled = false
+		attacktimer.start()
+		fireleft = false
+		
+	if fireright == true:
+		ray_cast_player_right.enabled = false
+		attacktimer.start()
+		fireright = false
+		
 func _ready() -> void:
 	quest_manager = get_tree().get_first_node_in_group("quest_manager") 
 
@@ -56,6 +82,7 @@ func _physics_process(delta: float) -> void:
 
 func destroy() -> void:
 	_state = State.DEAD
+	attacktimer.stop()
 	
 	if quest_manager and quest_manager.current_quest == quest_manager.QuestType.KILL_ENEMIES:
 		quest_manager.update_progress(1)
@@ -101,3 +128,16 @@ func invisibleforwait():
 func _on_timer_timeout():
 	print("ding")
 	queue_free()
+
+func _on_attack_timer_timeout():
+	if ray_cast_player_left.enabled == false:
+		var instance = attackorbright.instantiate()
+		add_child(instance)
+	
+	if ray_cast_player_right.enabled == false:
+		var instance = attackorbleft.instantiate()
+		add_child(instance)
+		
+	ray_cast_player_left.enabled = true
+	ray_cast_player_right.enabled = true
+	attacktimer.stop()
